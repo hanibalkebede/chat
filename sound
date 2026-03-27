@@ -1,0 +1,42 @@
+let musicMenu;
+let musicGame;
+let gameState = "menu";
+
+function preload() {
+  musicMenu = loadSound("risk.mp3");
+  musicGame = loadSound("stylish-beat.mp3");
+}
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function mousePressed() {
+  userStartAudio();
+}
+
+function draw() {
+  if (gameState === "menu") {
+    if (!musicMenu.isPlaying()) {
+      musicGame.stop();
+      musicMenu.loop();
+    }
+    background(50);
+    text("MENU - Press SPACE", 120, 200);
+  }
+
+  else if (gameState === "game") {
+    if (!musicGame.isPlaying()) {
+      musicMenu.stop();
+      musicGame.loop();
+    }
+    background(0);
+    text("GAME RUNNING", 140, 200);
+  }
+}
+
+function keyPressed() {
+  if (key === ' ') {
+    gameState = "game";
+  }
+}
