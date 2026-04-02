@@ -1,11 +1,11 @@
 let musicMenu;
 let musicGame;
-let explosionSound;
+let explosionSound; // keep as in your original code
 let gameState = "menu";
 let soundsLoaded = false;
 
 function preload() {
-  // Use uploaded asset names exactly
+  // Your original preload
   musicMenu = loadSound("studiokolomna-risk-136788.mp3");
   musicGame = loadSound("alexgrohl-stylish-beat-478804.mp3");
 }
@@ -17,8 +17,11 @@ function setup() {
   background(0);
   fill(255);
   text("Click anywhere to start", width/2, height/2);
-	musicMenu.play()
-	
+
+  // Start menu music at beginning
+  if (musicMenu.isLoaded()) {
+    musicMenu.loop();
+  }
 }
 
 function draw() {
@@ -28,24 +31,28 @@ function draw() {
   if (gameState === "menu") {
     text("MENU - Click to Start Game", width/2, height/2);
   } else if (gameState === "game") {
-    text("GAME RUNNING - Press E for Explosion Sound", width/2, height/2);
+    text("GAME RUNNING", width/2, height/2);
   }
 }
 
-// MUST start sound after user click!
+// Keep your original mousePressed
 function mousePressed() {
+  userStartAudio(); // needed to allow audio in browser
+
   if (!soundsLoaded) {
     if (musicMenu.isLoaded()) {
-      musicMenu.loop();  // start menu music
+      musicMenu.loop(); // menu music already started
       soundsLoaded = true;
     }
   }
 
   if (gameState === "menu") {
     gameState = "game";
+
+    // Stop menu music and play game music
     if (musicMenu.isPlaying()) musicMenu.stop();
     if (musicGame.isLoaded() && !musicGame.isPlaying()) {
-      musicGame.loop();   // start game music
+      musicGame.loop();
     }
   }
 }
@@ -53,5 +60,16 @@ function mousePressed() {
 function keyPressed() {
   if (key === 'E' || key === 'e') {
     if (explosionSound.isLoaded()) explosionSound.play();
+  }
+
+  // Game over (use G key for simplicity)
+  if (key === 'G' || key === 'g') {
+    gameState = "menu";
+
+    // Stop game music, play menu music again
+    if (musicGame.isPlaying()) musicGame.stop();
+    if (musicMenu.isLoaded() && !musicMenu.isPlaying()) {
+      musicMenu.loop();
+    }
   }
 }
