@@ -23,9 +23,9 @@ let playerCoins = 0
 // like sounds and images (from files)
 function preload() {
 	// Do all the image and sound file loading here
-	// pewpewSound = loadSound('pew-pew.mp3')
-	// hitSound = loadSound('hit.mp3')
-	// explosionSound = loadSound('explosion.mp3')	
+	pewpewSound = loadSound('alexgrohl-style-laser-gun-01.mp3')
+	hitSound = loadSound('hit.mp3')
+	explosionSound = loadSound('explosion.mp3')	
 	backgroundImage = loadImage('background.webp')
 	playerscreen = loadImage('player screen.webp')
 } // End of preload function
