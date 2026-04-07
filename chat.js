@@ -13,9 +13,11 @@ let playerRadius = 20
 let enemyPositions = []
 let enemySpeeds = []
 let enemyHitCounts = []
-let numEnemies = 5
+let numEnemies = 50
 let enemyBullets = []
 let playerBullets = []
+let playerLives = 5
+let playerCoins = 0
 
 // This function is run before the setup function to load things that could take a while to load
 // like sounds and images (from files)
@@ -47,6 +49,10 @@ function setup() {
 		enemyHitCounts.push(0)
 	}
 } // End of setup function
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight)
+}
 
 // This function is run repeatedly, based on the set frame rate
 function draw() {
