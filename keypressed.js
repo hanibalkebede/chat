@@ -1,6 +1,6 @@
 function keyPressed() {
 	if (currentScreen === INTRO_SCREEN && keyCode === ENTER) {
-		startGame(MODE_SINGLE)
+		startGame(MODE_SINGLE) 
 		if (pewpewSound && pewpewSound.isLoaded()) {
 			pewpewSound.play()
 		}
