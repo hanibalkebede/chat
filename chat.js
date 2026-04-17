@@ -46,7 +46,7 @@ function preload() {
 
 // This function is run once when the program starts
 function setup() {
-	createCanvas(windowWidth, windowHeight)
+	cnv = createCanvas(windowWidth, windowHeight)
 	background('background.jpg')
 	frameRate(20)
 	

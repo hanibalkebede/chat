@@ -1,23 +1,24 @@
 function drawPlayingScreen() {
 	clear()
-	// Draw background image to fit window while maintaining aspect ratio
-	let imgAspect = playerscreen.width / playerscreen.height
-	let canvasAspect = windowWidth / windowHeight
-	let drawWidth, drawHeight, offsetX = 0, offsetY = 0
+	// // Draw background image to fit window while maintaining aspect ratio
+	// let imgAspect = playerscreen.width / playerscreen.height
+	// let canvasAspect = windowWidth / windowHeight
+	// let drawWidth, drawHeight, offsetX = 0, offsetY = 0
 	
-	if (imgAspect > canvasAspect) {
-		// Image is wider, fit to height
-		drawHeight = windowHeight
-		drawWidth = drawHeight * imgAspect
-		offsetX = (windowWidth - drawWidth) / 2
-	} else {
-		// Image is taller, fit to width
-		drawWidth = windowWidth
-		drawHeight = drawWidth / imgAspect
-		offsetY = (windowHeight - drawHeight) / 2
-	}
+	// if (imgAspect > canvasAspect) {
+	// 	// Image is wider, fit to height
+	// 	drawHeight = windowHeight
+	// 	drawWidth = drawHeight * imgAspect
+	// 	offsetX = (windowWidth - drawWidth) / 2
+	// } else {
+	// 	// Image is taller, fit to width
+	// 	drawWidth = windowWidth
+	// 	drawHeight = drawWidth / imgAspect
+	// 	offsetY = (windowHeight - drawHeight) / 2
+	// }
 	
-	image(playerscreen, offsetX, offsetY, drawWidth, drawHeight)
+	// image(playerscreen, offsetX, offsetY, drawWidth, drawHeight)
+	image(playerscreen, 0,0, windowWidth, windowHeight)
 
 	// Draw player as emoji
 	textSize(40)
