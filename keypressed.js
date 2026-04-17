@@ -3,6 +3,8 @@ function keyPressed() {
 		currentScreen = PLAYING_SCREEN
 	}
 
+	sound.play();
+
 	if (currentScreen === PLAYING_SCREEN) {
 		if (keyCode === LEFT_ARROW) {
 			playerPosition.x -= 10
