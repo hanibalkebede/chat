@@ -34,6 +34,26 @@ function drawPlayingScreen() {
 		text('2', player2Position.x, player2Position.y - 30)
 	}
 
+	// Move enemies side to side in level 1
+	if (currentLevel === 1) {
+		// Check if enemies hit the edge and need to reverse direction
+		let hitEdge = false
+		for (let i = 0; i < enemyPositions.length; i++) {
+			if (enemyPositions[i].x <= 20 || enemyPositions[i].x >= windowWidth - 20) {
+				hitEdge = true
+				break
+			}
+		}
+		if (hitEdge) {
+			enemyDirection *= -1 // Reverse direction
+		}
+		
+		// Move all enemies
+		for (let i = 0; i < enemyPositions.length; i++) {
+			enemyPositions[i].x += enemyDirection * 3
+		}
+	}
+
 	// Draw enemies
 	for (let i = 0; i < enemyPositions.length; i++) {
 		let enemy = enemyPositions[i]
@@ -42,8 +62,6 @@ function drawPlayingScreen() {
 		let emoji = i % 2 === 0 ? '👾' : '🛸'
 		textSize(30)
 		text(emoji, enemy.x - 15, enemy.y + 10)
-
-		// Keep enemies in place
 
 		// Enemy fires bullet occasionally
 		if (random() < 0.02) { // 2% chance per frame
@@ -160,17 +178,41 @@ function drawPlayingScreen() {
 	// Display lives, kills, coins, and level
 	fill('white')
 	textSize(20)
+	
+	// Calculate remaining ammo and reload time for player 1
+	let currentTime = millis()
+	let p1TimeRemaining = RELOAD_TIME - (currentTime - playerShotsStartTime[0])
+	let p1AmmoRemaining = MAX_SHOTS_PER_CYCLE - playerShotsCount[0]
+	
 	if (gameMode === MODE_TWO) {
 		text(`P1 Lives: ${player1Lives}`, 10, 30)
-		text(`P2 Lives: ${player2Lives}`, 10, 60)
-		text(`P1 Kills: ${playerKills[0]}`, 10, 90)
-		text(`P2 Kills: ${playerKills[1]}`, 10, 120)
-		text(`Level: ${currentLevel}`, 10, 150)
+		text(`P1 Ammo: ${p1AmmoRemaining}/${MAX_SHOTS_PER_CYCLE}`, 10, 50)
+		if (playerShotsStartTime[0] !== 0) {
+			text(`P1 Reload: ${(p1TimeRemaining / 1000).toFixed(1)}s`, 10, 70)
+		}
+		
+		// Calculate remaining ammo and reload time for player 2
+		let p2TimeRemaining = RELOAD_TIME - (currentTime - playerShotsStartTime[1])
+		let p2AmmoRemaining = MAX_SHOTS_PER_CYCLE - playerShotsCount[1]
+		
+		text(`P2 Lives: ${player2Lives}`, 10, 100)
+		text(`P2 Ammo: ${p2AmmoRemaining}/${MAX_SHOTS_PER_CYCLE}`, 10, 120)
+		if (playerShotsStartTime[1] !== 0) {
+			text(`P2 Reload: ${(p2TimeRemaining / 1000).toFixed(1)}s`, 10, 140)
+		}
+		
+		text(`P1 Kills: ${playerKills[0]}`, 10, 170)
+		text(`P2 Kills: ${playerKills[1]}`, 10, 190)
+		text(`Level: ${currentLevel}`, 10, 210)
 	} else {
 		text(`Lives: ${player1Lives}`, 10, 30)
-		text(`Coins: ${playerCoins}`, 10, 60)
-		text(`Kills: ${playerKills[0]}`, 10, 90)
-		text(`Level: ${currentLevel}`, 10, 120)
+		text(`Ammo: ${p1AmmoRemaining}/${MAX_SHOTS_PER_CYCLE}`, 10, 50)
+		if (playerShotsStartTime[0] !== 0) {
+			text(`Reload: ${(p1TimeRemaining / 1000).toFixed(1)}s`, 10, 70)
+		}
+		text(`Coins: ${playerCoins}`, 10, 100)
+		text(`Kills: ${playerKills[0]}`, 10, 130)
+		text(`Level: ${currentLevel}`, 10, 160)
 	}
 	
 	// Check for level completion

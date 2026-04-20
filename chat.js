@@ -30,6 +30,11 @@ let currentLevel = 1
 let playerKills = [0, 0]
 let doubleFireCharges = [0, 0]
 let enemyHealth = []
+let playerShotsCount = [0, 0] // Shots fired in current 30-second window
+let playerShotsStartTime = [0, 0] // When the 30-second window started for each player
+const MAX_SHOTS_PER_CYCLE = 50
+const RELOAD_TIME = 30000 // 30 seconds in milliseconds
+let enemyDirection = 1 // 1 for right, -1 for left (for level 1 movement)
 
 // This function is run before the setup function to load things that could take a while to load
 // like sounds and images (from files)
@@ -76,6 +81,9 @@ function initLevel1() {
 	playerCoins = 0
 	currentLevel = 1
 	gameWinner = null
+	playerShotsCount = [0, 0]
+	playerShotsStartTime = [0, 0]
+	enemyDirection = 1 // Reset direction for level 1
 
 	let cols = 10
 	let rows = 5
@@ -167,13 +175,20 @@ function mousePressed() {
 			}
 		}
 	} else if (currentScreen === GAMEOVER_SCREEN) {
-		let btnWidth = 260
+		let btnWidth = 200
 		let btnHeight = 70
-		let btnX = windowWidth / 2 - btnWidth / 2
-		let btnY = windowHeight / 2 + 100
+		let restartBtnX = windowWidth / 2 - btnWidth - 30
+		let homeBtnX = windowWidth / 2 + 30
+		let btnY = windowHeight / 2 + 120
 
-		if (mouseX >= btnX && mouseX <= btnX + btnWidth && mouseY >= btnY && mouseY <= btnY + btnHeight) {
+		// Check Restart button
+		if (mouseX >= restartBtnX && mouseX <= restartBtnX + btnWidth && mouseY >= btnY && mouseY <= btnY + btnHeight) {
 			startGame(gameMode)
+		}
+		// Check Home button
+		else if (mouseX >= homeBtnX && mouseX <= homeBtnX + btnWidth && mouseY >= btnY && mouseY <= btnY + btnHeight) {
+			currentScreen = INTRO_SCREEN
+			gameOverSoundPlayed = false
 		}
 	}
 }
@@ -185,6 +200,9 @@ function initLevel2() {
 	enemyHitCounts = []
 	enemyHealth = []
 	enemyBullets = []
+	playerShotsCount = [0, 0]
+	playerShotsStartTime = [0, 0]
+	enemyDirection = 1 // Reset direction for level 2
 
 	// Level 2: More enemies with higher health
 	let cols = 10
@@ -237,14 +255,24 @@ function drawGameOverScreen() {
 		text(`Kills: ${playerKills[0]}`, windowWidth / 2, windowHeight / 2 + 50)
 	}
 
-	let btnWidth = 260
+	// Draw Restart button
+	let btnWidth = 200
 	let btnHeight = 70
-	let btnX = windowWidth / 2 - btnWidth / 2
-	let btnY = windowHeight / 2 + 100
+	let btnX = windowWidth / 2 - btnWidth - 30
+	let btnY = windowHeight / 2 + 120
 	fill('#222')
 	rect(btnX, btnY, btnWidth, btnHeight, 20)
 	fill('white')
-	textSize(28)
-	text('Restart', windowWidth / 2, btnY + btnHeight / 2 + 8)
+	textSize(24)
+	textAlign(CENTER)
+	text('Restart', btnX + btnWidth / 2, btnY + btnHeight / 2 + 8)
+	
+	// Draw Home button
+	let homeX = windowWidth / 2 + 30
+	fill('#222')
+	rect(homeX, btnY, btnWidth, btnHeight, 20)
+	fill('white')
+	textSize(24)
+	text('Home', homeX + btnWidth / 2, btnY + btnHeight / 2 + 8)
 }
 
